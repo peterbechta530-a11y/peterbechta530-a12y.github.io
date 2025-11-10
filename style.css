@@ -1,0 +1,80 @@
+body {
+  font-family: 'Minecraft', Arial, sans-serif;
+  background: linear-gradient(135deg, #2c2f33, #23272a);
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+h1 {
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: #00ff88;
+  text-shadow: 2px 2px 5px #000;
+}
+
+#admin-btn, #save-btn {
+  background: #00ff88;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #000;
+  font-weight: bold;
+  transition: 0.3s;
+  margin-left: 10px;
+}
+
+#admin-btn:hover, #save-btn:hover {
+  background: #00cc66;
+}
+
+#save-btn {
+  display: none;
+}
+
+table {
+  width: 60%;
+  margin: 50px auto;
+  border-collapse: collapse;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+th, td {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 1.2rem;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+input.editable {
+  width: 80%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #00ff88;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 1rem;
+  text-align: center;
+}
