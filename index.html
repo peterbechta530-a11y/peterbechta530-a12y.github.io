@@ -1,1 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minecraft Server Leaderboard</title>
+  <style>
+    body {
+      font-family: 'Minecraft', Arial, sans-serif;
+      background: linear-gradient(135deg, #2c2f33, #23272a);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: #00ff88;
+      text-shadow: 2px 2px 5px #000;
+    }
+
+    #admin-btn {
+      background: #00ff88;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    #admin-btn:hover {
+      background: #00cc66;
+    }
+
+    table {
+      width: 60%;
+      margin: 50px auto;
+      border-collapse: collapse;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    th, td {
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 1.2rem;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    input.editable {
+      width: 80%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #00ff88;
+      color: #fff;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏆 Minecraft Leaderboard 🏆</h1>
+    <button id="admin-btn">Admin</button>
+  </header>
+
+  <table id="leaderboard">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Player Name</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 5 empty slots -->
+      <tr><td>1</td><td class="name"></td><td class="points"></td></tr>
+      <tr><td>2</td><td class="name"></td><td class="points"></td></tr>
+      <tr><td>3</td><td class="name"></td><td class="points"></td></tr>
+      <tr><td>4</td><td class="name"></td><td class="points"></td></tr>
+      <tr><td>5</td><td class="name"></td><td class="points"></td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    const PASSWORD = "0029";
+    const adminBtn = document.getElementById("admin-btn");
+    const table = document.getElementById("leaderboard");
+    const rows = table.querySelectorAll("tbody tr");
+
+    // Load data from localStorage
+    function loadData() {
+      const saved = JSON.parse(localStorage.getItem("leaderboardData")) || [];
+      saved.forEach((entry, i) => {
+        if (rows[i]) {
+          rows[i].querySelector(".name").textContent = entry.name;
+          rows[i].querySelector(".points").textContent = entry.points;
+        }
+      });
+    }
+
+    // Save data to localStorage
+    function saveData() {
+      const data = Array.from(rows).map(row => ({
+        name: row.querySelector(".name").textContent.trim(),
+        points: row.querySelector(".points").textContent.trim()
+      }));
+      localStorage.setItem("leaderboardData", JSON.stringify(data));
+    }
+
+    // Admin editing mode
+    adminBtn.addEventListener("click", () => {
+      const pass = prompt("Enter admin passcode:");
+      if (pass === PASSWORD) {
+        enableEditing();
+      } else if (pass) {
+        alert("Wrong password!");
+      }
+    });
+
+    function enableEditing() {
+      rows.forEach(row => {
+        const nameCell = row.querySelector(".name");
+        const pointsCell = row.querySelector(".points");
+
+        const nameInput = document.createElement("input");
+        nameInput.value = nameCell.textContent;
+        nameInput.classList.add("editable");
+
+        const pointsInput = document.createElement("input");
+        pointsInput.value = pointsCell.textContent;
+        pointsInput.classList.add("editable");
+
+        nameCell.textContent = "";
+        pointsCell.textContent = "";
+
+        nameCell.appendChild(nameInput);
+        pointsCell.appendChild(pointsInput);
+      });
+
+      adminBtn.textContent = "Save";
+      adminBtn.onclick = () => {
+        rows.forEach(row => {
+          const nameInput = row.querySelector(".name input");
+          const pointsInput = row.querySelector(".points input");
+          row.querySelector(".name").textContent = nameInput.value;
+          row.querySelector(".points").textContent = pointsInput.value;
+        });
+        saveData();
+        adminBtn.textContent = "Admin";
+        adminBtn.onclick = null;
+        adminBtn.addEventListener("click", () => {
+          const pass = prompt("Enter admin passcode:");
+          if (pass === PASSWORD) {
+            enableEditing();
+          } else if (pass) {
+            alert("Wrong password!");
+          }
+        });
+      };
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
 
