@@ -1,37 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minecraft Server Leaderboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh;
+      background: #f0f4f8;
+    }
+    .ad-box {
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .ad-box img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+    .countdown {
+      font-size: 1.2em;
+      margin: 15px 0;
+      color: #333;
+    }
+    .btn {
+      padding: 12px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background: #007bff;
+      color: #fff;
+    }
+    @media (max-width: 600px) {
+      .ad-box { width: 90%; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🏆 Minecraft Leaderboard 🏆</h1>
-    <div>
-      <button id="admin-btn">Admin</button>
-      <button id="save-btn">Save</button>
-    </div>
-  </header>
 
-  <table id="leaderboard">
-    <thead>
-      <tr>
-        <th>Rank</th>
-        <th>Player Name</th>
-        <th>Points</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td class="name"></td><td class="points"></td></tr>
-      <tr><td>2</td><td class="name"></td><td class="points"></td></tr>
-      <tr><td>3</td><td class="name"></td><td class="points"></td></tr>
-      <tr><td>4</td><td class="name"></td><td class="points"></td></tr>
-      <tr><td>5</td><td class="name"></td><td class="points"></td></tr>
-    </tbody>
-  </table>
+<div class="ad-box">
+  <h2>Sponsored Demo</h2>
+  <!-- Fake ad image -->
+  <img src="https://via.placeholder.com/350x150.png?text=Fake+Ad+Image" alt="Fake Ad">
+  
+  <div class="countdown">Please wait <span id="timer">10</span> seconds...</div>
+  
+  <button id="skipBtn" class="btn btn-primary" disabled>Skip Ad</button>
+  
+  <div id="download" style="margin-top:20px; display:none;">
+    <a href="dont_open!!!.pdf" download class="btn btn-primary">Download File</a>
+  </div>
+</div>
 
-  <script src="script.js"></script>
+<script>
+  let timeLeft = 10;
+  const timerEl = document.getElementById('timer');
+  const skipBtn = document.getElementById('skipBtn');
+  const downloadDiv = document.getElementById('download');
+
+  const countdown = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
+      skipBtn.disabled = false;
+      skipBtn.textContent = "Skip Ad";
+    }
+  }, 1000);
+
+  skipBtn.addEventListener('click', () => {
+    downloadDiv.style.display = 'block';
+    skipBtn.style.display = 'none';
+    document.querySelector('.countdown').style.display = 'none';
+  });
+</script>
+
 </body>
 </html>
